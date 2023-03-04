@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,7 +39,6 @@ import java.util.Set;
  */
 
 public class Q15 {
-
     /**
      * 题型类似Q982
      * 思路一：
@@ -53,15 +53,70 @@ public class Q15 {
      * 将三元组中的数字按从小到大顺序拼成字符串放入set中，若存在则重复
      */
     public List<List<Integer>> threeSum(int[] nums) {
+        // TODO(完成): 使用内存超出题目限制，优化result中只添加有效的
+        // TODO: 该复杂度超出时间限制，添加步骤注释
         Set<String> threeSumSet = new HashSet<>();
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
-        for (int i = 0; i < nums.length; i++) {
+        // 时间复杂度O(n^3)
+        for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
+            if (i > 1 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (k > j + 1 && nums[k] == nums[k - 1]) {
+                        continue;
+                    }
+                    int sum = nums[i] + nums[j] + nums[k];
+                    if (sum == 0) {
+                        String threeSumString = String.format("%d%d%d", nums[i], nums[j], nums[k]);
+                        if (!threeSumSet.contains(threeSumString)) {
+                            threeSumSet.add(threeSumString);
+                            List<Integer> threeNum = new ArrayList<>();
+                            threeNum.add(nums[i]);
+                            threeNum.add(nums[j]);
+                            threeNum.add(nums[k]);
+                            result.add(threeNum);
+                        }
+                        break;
+                    } else if (sum > 0) {
+                        break;
+                    }
+                }
+            }
         }
+//        for (Iterator<List<Integer>> it = result.iterator(); it.hasNext(); ) {
+//            List<Integer> twoNum = it.next();
+//            for (int i = twoNum.get(1) + 1; i < nums.length; i++) {
+//                int firstIndex = twoNum.get(0);
+//                int secondIndex = twoNum.get(1);
+//                int sum = nums[firstIndex] + nums[secondIndex] + nums[i];
+//                if (sum == 0) {
+//                    String threeSumString = String.format("%d%d%d", nums[firstIndex], nums[secondIndex], nums[i]);
+//                    if (!threeSumSet.contains(threeSumString)) {
+//                        threeSumSet.add(threeSumString);
+//                        twoNum.set(0, nums[firstIndex]);
+//                        twoNum.set(1, nums[secondIndex]);
+//                        twoNum.add(nums[i]);
+//                    }
+//                    break;
+//                } else if (sum > 0) {
+//                    break;
+//                }
+//            }
+//            if (twoNum.size() < 3) {
+//                it.remove();
+//            }
+//        }
         return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(-1 & (32 -1));
+        System.out.println(new Q15().threeSum(new int[] {-1,0,1,2,-1,-4}));
+        System.out.println(new Q15().threeSum(new int[] {0, 0, 0, 0}));
     }
 }
