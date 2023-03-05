@@ -52,67 +52,97 @@ public class Q15 {
      * 第二次两层循环构成三元组，从二元组的大索引右方遍历循环，不在下方map中即有效
      * 将三元组中的数字按从小到大顺序拼成字符串放入set中，若存在则重复
      */
-    public List<List<Integer>> threeSum(int[] nums) {
-        // TODO(完成): 使用内存超出题目限制，优化result中只添加有效的
-        // TODO: 该复杂度超出时间限制，添加步骤注释
-        Set<String> threeSumSet = new HashSet<>();
+    public List<List<Integer>> threeSumSlow(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
-        // 时间复杂度O(n^3)
+        // TODO: 时间复杂度O(n^3)，超出时间限制
         for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
-            if (i > 1 && nums[i] == nums[i - 1]) {
+            // 重复的第1位数字跳过
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             for (int j = i + 1; j < nums.length; j++) {
+                // 重复的第2位数字跳过
                 if (j > i + 1 && nums[j] == nums[j - 1]) {
                     continue;
                 }
                 for (int k = j + 1; k < nums.length; k++) {
+                    // 重复的第3位数字跳过
+                    // 上述3个步骤就是去重
                     if (k > j + 1 && nums[k] == nums[k - 1]) {
                         continue;
                     }
                     int sum = nums[i] + nums[j] + nums[k];
                     if (sum == 0) {
-                        String threeSumString = String.format("%d%d%d", nums[i], nums[j], nums[k]);
-                        if (!threeSumSet.contains(threeSumString)) {
-                            threeSumSet.add(threeSumString);
-                            List<Integer> threeNum = new ArrayList<>();
-                            threeNum.add(nums[i]);
-                            threeNum.add(nums[j]);
-                            threeNum.add(nums[k]);
-                            result.add(threeNum);
-                        }
+                        result.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                        // 只会有一个数字与二元组的和为0，找到后退出当前循环继续下一个二元组
                         break;
                     } else if (sum > 0) {
+                        // 如果第3个数会让和大于0，因为数组排序过，所以不会再有数字构成3元组的和为0
                         break;
                     }
                 }
             }
         }
-//        for (Iterator<List<Integer>> it = result.iterator(); it.hasNext(); ) {
-//            List<Integer> twoNum = it.next();
-//            for (int i = twoNum.get(1) + 1; i < nums.length; i++) {
-//                int firstIndex = twoNum.get(0);
-//                int secondIndex = twoNum.get(1);
-//                int sum = nums[firstIndex] + nums[secondIndex] + nums[i];
-//                if (sum == 0) {
-//                    String threeSumString = String.format("%d%d%d", nums[firstIndex], nums[secondIndex], nums[i]);
-//                    if (!threeSumSet.contains(threeSumString)) {
-//                        threeSumSet.add(threeSumString);
-//                        twoNum.set(0, nums[firstIndex]);
-//                        twoNum.set(1, nums[secondIndex]);
-//                        twoNum.add(nums[i]);
-//                    }
-//                    break;
-//                } else if (sum > 0) {
-//                    break;
-//                }
-//            }
-//            if (twoNum.size() < 3) {
-//                it.remove();
-//            }
-//        }
         return result;
+    }
+
+    // 题解答案
+    //定义三个指针，保证遍历数组中的每一个结果
+    //画图，解答
+    public List<List<Integer>> threeSum(int[] nums) {
+        //定义一个结果集
+        List<List<Integer>> res = new ArrayList<>();
+        //数组的长度
+        int len = nums.length;
+        //当前数组的长度为空，或者长度小于3时，直接退出
+        if(nums == null || len <3){
+            return res;
+        }
+        //将数组进行排序
+        Arrays.sort(nums);
+        //遍历数组中的每一个元素
+        for(int i = 0; i<len;i++){
+            //如果遍历的起始元素大于0，就直接退出
+            //原因，此时数组为有序的数组，最小的数都大于0了，三数之和肯定大于0
+            if(nums[i]>0){
+                break;
+            }
+            //去重，当起始的值等于前一个元素，那么得到的结果将会和前一次相同
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            int l = i +1;
+            int r = len-1;
+            //当 l 不等于 r时就继续遍历
+            while(l<r){
+                //将三数进行相加
+                int sum = nums[i] + nums[l] + nums[r];
+                //如果等于0，将结果对应的索引位置的值加入结果集中
+                if(sum==0){
+                    // 将三数的结果集加入到结果集中
+                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    //在将左指针和右指针移动的时候，先对左右指针的值，进行判断
+                    //如果重复，直接跳过。
+                    //去重，因为 i 不变，当此时 l取的数的值与前一个数相同，所以不用在计算，直接跳
+                    while(l < r && nums[l] == nums[l+1]) {
+                        l++;
+                    }
+                    //去重，因为 i不变，当此时 r 取的数的值与前一个相同，所以不用在计算
+                    while(l< r && nums[r] == nums[r-1]){
+                        r--;
+                    }
+                    //将 左指针右移，将右指针左移。
+                    l++;
+                    r--;
+                    //如果结果小于0，将左指针右移
+                }else if(sum < 0){
+                    l++;
+                    //如果结果大于0，将右指针左移
+                }else if(sum > 0){
+                    r--;
+                }
+            }
+        }
+        return res;
     }
 
     public static void main(String[] args) {
