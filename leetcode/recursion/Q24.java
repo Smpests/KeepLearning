@@ -1,5 +1,6 @@
+package recursion;
+
 import common.ListNode;
-import org.w3c.dom.NodeList;
 
 /**
  * 24. 两两交换链表中的节点
