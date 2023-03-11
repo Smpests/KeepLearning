@@ -1,5 +1,3 @@
-package recursion;
-
 import common.ListNode;
 
 import java.util.ArrayList;
