@@ -12,15 +12,49 @@
   <!-- FIXME change it to the project's website -->
   <url>https://github.com/Smpests/KeepLearning</url>
 
+<!--  定义环境-->
+<!--  <profiles>-->
+<!--    <profile>-->
+<!--      <id>prod</id>-->
+<!--      <properties>-->
+<!--        <properties.active>prod</properties.active>-->
+<!--      </properties>-->
+<!--    </profile>-->
+<!--    <profile>-->
+<!--      <id>test</id>-->
+<!--      <properties>-->
+<!--        <properties.active>test</properties.active>-->
+<!--      </properties>-->
+<!--      <activation>-->
+<!--        <activeByDefault>true</activeByDefault>-->
+<!--      </activation>-->
+<!--    </profile>-->
+<!--  </profiles>-->
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <mockito.core.version>2.27.0</mockito.core.version>
     <junit.jupiter.version>5.9.2</junit.jupiter.version>
+    <spring.boot.version>2.7.9</spring.boot.version>
   </properties>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>${spring.boot.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring.boot.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
@@ -28,12 +62,13 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.jupiter.version}</version>
-      <scope>test</scope>
-    </dependency>
+<!--    spring boot中包含junit的包-->
+<!--    <dependency>-->
+<!--      <groupId>org.junit.jupiter</groupId>-->
+<!--      <artifactId>junit-jupiter-api</artifactId>-->
+<!--      <version>${junit.jupiter.version}</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
   </dependencies>
 
   <build>
@@ -49,6 +84,18 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
         </plugin>
+<!--        new JUnit platform launcher to run test case.-->
+<!--        <plugin>-->
+<!--          <artifactId>maven-surefire-plugin</artifactId>-->
+<!--          <version>2.22.2</version>-->
+<!--          <dependencies>-->
+<!--            <dependency>-->
+<!--              <groupId>org.junit.platform</groupId>-->
+<!--              <artifactId>junit-platform-surefire-provider</artifactId>-->
+<!--              <version>1.3.2</version>-->
+<!--            </dependency>-->
+<!--          </dependencies>-->
+<!--        </plugin>-->
       </plugins>
     </pluginManagement>
   </build>

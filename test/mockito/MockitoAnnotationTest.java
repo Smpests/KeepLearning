@@ -1,7 +1,9 @@
 package mockito;
 
+import mockitospring.service.NameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
@@ -9,6 +11,7 @@ import org.mockito.Mock;
 
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ import static org.mockito.AdditionalMatchers.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-
+@ExtendWith(MockitoExtension.class)
 public class MockitoAnnotationTest {
 
     // @BeforeEach在每个测试方法执行前执行
@@ -48,10 +51,10 @@ public class MockitoAnnotationTest {
 
     @Test
     public void stubbing() {
-        mockList.add(anyString());
+        mockList.add("A");
         spyList.add("B");
         // verify的作用：确认mock对象的方法是否被调用，以及参数是否正确
-        verify(mockList).add("A");
+        verify(mockList).add(anyString());
         // 捕获调用add()时传的是什么参数，用于下面的断言判断是不是传的A，效果和上面差不多
         verify(mockList).add((String) argumentCaptor.capture());
         assertEquals("A", argumentCaptor.getValue());
@@ -103,5 +106,11 @@ public class MockitoAnnotationTest {
         verify(mockList).add(eq("test"));
         // 或匹配，满足两个匹配中的任一个即可
         verify(mockList).add(or(eq("A"), endsWith("t")));
+    }
+
+    @Test
+    public void mockIntoMethodParameter(@Mock NameService service) {
+        lenient().when(service.getGlobalUniqueName(anyString())).thenReturn("mock");
+        verify(service).getGlobalUniqueName(anyString());
     }
 }
