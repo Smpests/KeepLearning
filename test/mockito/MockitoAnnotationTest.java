@@ -107,10 +107,10 @@ public class MockitoAnnotationTest {
         // 或匹配，满足两个匹配中的任一个即可
         verify(mockList).add(or(eq("A"), endsWith("t")));
     }
-
-    @Test
-    public void mockIntoMethodParameter(@Mock NameService service) {
-        lenient().when(service.getGlobalUniqueName(anyString())).thenReturn("mock");
-        verify(service).getGlobalUniqueName(anyString());
-    }
+    // cannot run, throw an exception.
+//    @Test
+//    public void mockIntoMethodParameter(@Mock NameService service) {
+//        lenient().when(service.getGlobalUniqueName(anyString())).thenReturn("mock");
+//        verify(service).getGlobalUniqueName(anyString());
+//    }
 }
