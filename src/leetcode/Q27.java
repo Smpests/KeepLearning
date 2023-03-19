@@ -52,8 +52,10 @@ public class Q27 {
         int newLength = nums.length;
         int offset = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] != val && offset != 0) {
-                nums[i - offset] = nums[i];
+            if (nums[i] != val) {
+                if (offset != 0) {
+                    nums[i - offset] = nums[i];
+                }
             } else {
                 ++offset;
                 --newLength;
