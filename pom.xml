@@ -14,6 +14,7 @@
       <module>dubbo-spring-boot-demo-provider</module>
       <module>leetcode</module>
       <module>tutorial</module>
+      <module>dubbo-spring-xml-demo</module>
     </modules>
 
     <name>keep-learning</name>

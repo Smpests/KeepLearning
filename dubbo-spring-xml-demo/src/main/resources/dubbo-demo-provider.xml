@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
+
+    <!-- 定义应用名 -->
+    <dubbo:application name="demo-provider"/>
+
+    <!-- 定义注册中心地址 -->
+    <!-- 添加register="false"，只订阅不注册(直连不走zk) -->
+<!--    <dubbo:registry register="false" address="zookeeper://127.0.0.1:2181"/>-->
+    <!-- 直连方式 -->
+    <dubbo:registry address="N/A"/>
+    <!-- 使用dubbo协议暴露提供者服务在port -->
+    <dubbo:protocol name="dubbo" port="20880" />
+    <!-- 定义实现类对应的 bean -->
+    <bean id="greetingsService" class="org.apache.dubbo.samples.provider.GreetingsServiceImpl"/>
+    <!-- 定义服务信息，引用上面的 bean -->
+    <dubbo:service interface="org.apache.dubbo.samples.api.GreetingsService" ref="greetingsService"/>
+
+</beans>

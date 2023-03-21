@@ -1,0 +1,9 @@
+dubbo:
+  application:
+    name: dubbo-springboot-demo-provider
+  protocol:
+    name: dubbo
+    port: 20880
+  registry:
+    address: N/A
+    register: false
