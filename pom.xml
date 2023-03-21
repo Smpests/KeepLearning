@@ -6,9 +6,17 @@
 
   <groupId>org.qingsong</groupId>
   <artifactId>keep-learning</artifactId>
-  <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <modules>
+      <module>dubbo-spring-boot-demo-consumer</module>
+      <module>dubbo-spring-boot-demo-interface</module>
+      <module>dubbo-spring-boot-demo-provider</module>
+      <module>leetcode</module>
+      <module>tutorial</module>
+    </modules>
 
-  <name>keep-learning</name>
+    <name>keep-learning</name>
   <!-- FIXME change it to the project's website -->
   <url>https://github.com/Smpests/KeepLearning</url>
 
@@ -38,27 +46,48 @@
     <mockito.core.version>2.27.0</mockito.core.version>
     <junit.jupiter.version>5.9.2</junit.jupiter.version>
     <spring.boot.version>2.7.9</spring.boot.version>
+    <dubbo.version>3.2.0-beta.4</dubbo.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <!-- Spring Boot -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- Dubbo -->
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-bom</artifactId>
+        <version>${dubbo.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
+        <version>${dubbo.version}</version>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-      <version>${spring.boot.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <version>${spring.boot.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>${mockito.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring.boot.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -83,6 +112,11 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring.boot.version}</version>
         </plugin>
 <!--        new JUnit platform launcher to run test case.-->
 <!--        <plugin>-->
