@@ -1,0 +1,10 @@
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: cart-producer-group
+    send-message-timeout: 3000
+    compress-message-body-threshold: 1024 # 压缩消息大小阈值
+    max-message-size: 4096 # 最大单条消息体积
+    retry-times-when-send-async-failed: 3
+    retry-next-server: false # 发送失败时是否向其它实例发送该消息
+    retry-times-when-send-failed: 3
